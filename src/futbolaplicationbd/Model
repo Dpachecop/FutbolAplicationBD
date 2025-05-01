@@ -1,0 +1,157 @@
+@startuml
+
+class Campeonato {
+  +String nombre
+  +String liga
+  +String formato_torneo
+  +String temporada
+  +List<Equipo> equipos
+}
+
+class DirectorTec {
+  +String nombre
+  +String nacionalidad
+  +int experiencia
+  +Equipo equipo
+}
+
+class Equipo {
+  +String nombre
+  +String pais
+  +List<Jugador> jugadores
+  +List<PersonalLogistico> personalLogistico
+  +List<CambioTactico> cambiosTacticos
+  +DirectorTec directorTecnico
+  +EstadisticaEquipo estadisticaEquipo
+}
+
+class Jugador {
+  +String nombre
+  +int numero
+  +String posicion
+  +String nacionalidad
+  +String estado
+  +Equipo equipo
+  +List<Lesion> lesiones
+  +List<Premio> premios
+  +EstadisticaJugador estadisticaJugador
+  +List<EventoPartido> eventos
+}
+
+class PersonalLogistico {
+  +String nombre
+  +String rol
+}
+
+class Estadio {
+  +String nombre
+  +String calle
+  +String numero
+  +String ciudad
+  +String pais
+  +int capacidad_maxima
+  +String estado
+}
+
+class Arbitro {
+  +String nombre
+  +String tipo
+  +String nacionalidad
+}
+
+class Partido {
+  +LocalDate fecha
+  +LocalTime hora
+  +String ronda
+  +String lado_cancha_local
+  +String lado_cancha_visitante
+  +List<Equipo> equipos
+  +List<EventoPartido> eventos
+  +List<ArbitroPorPartido> arbitros
+  +List<Lesion> lesiones
+  +List<EstadisticaJugador> estadisticasJugadores
+  +List<EstadisticaEquipo> estadisticasEquipos
+  +List<CambioTactico> cambiosTacticos
+}
+
+class EventoPartido {
+  +TipoEventoEnum tipo_evento
+  +int minuto
+  +String detalle_extra
+  +String tipo_gol
+  +int consultas_var
+  +String zona
+}
+
+class Lesion {
+  +String tipo_lesion
+  +LocalDate fecha
+}
+
+class EstadisticaJugador {
+  +int goles
+  +int asistencias
+  +int tarjetas_amarillas
+  +int tarjetas_rojas
+  +int remates
+  +int regates
+  +BigDecimal posesion
+  +int remates_fuera
+  +int remates_atajados
+  +int tiros_bloqueados
+}
+
+class EstadisticaEquipo {
+  +int pases_completados
+  +BigDecimal posesion
+  +int goles
+  +int remates
+  +int faltas
+  +int tiros
+  +int atajadas
+}
+
+class Premio {
+  +String nombre_premio
+  +String tipo_premio
+}
+
+class CambioTactico {
+  +String tipo_cambio
+  +int minuto
+}
+
+class ArbitroPorPartido {
+  +String nombre
+  +Partido partido
+  +String tipo
+}
+
+
+
+
+
+Campeonato "1" -- "*" Equipo : Inscribe
+DirectorTec "1" -- "1" Equipo : Dirige
+Equipo "1" -- "*" Jugador : Tiene
+Equipo "1" -- "*" PersonalLogistico : Cuenta_con
+Equipo "1" -- "*" Partido : Participa_como_local
+Equipo "1" -- "*" Partido : Participa_como_visitante
+Estadio "1" -- "*" Partido : Se_juega_en
+Partido "1" -- "*" EventoPartido : Genera
+Partido "1" -- "*" Lesion : Ocurre_en
+Jugador "1" -- "*" EventoPartido : Realiza
+Jugador "1" -- "*" Lesion : Sufre
+Jugador "1" -- "*" EstadisticaJugador : Tiene_estadistica
+Jugador "1" -- "*" Premio : Gana
+Partido "1" -- "*" EstadisticaJugador : Pertenece
+Partido "1" -- "*" EstadisticaEquipo : Pertenece
+Equipo "1" -- "*" EstadisticaEquipo : Pertenece
+Equipo "1" -- "*" CambioTactico : Realiza
+Partido "1" -- "*" CambioTactico : Realizado_en
+DirectorTec "1" -- "*" CambioTactico : Supervisa
+Partido "1" -- "*" ArbitroPorPartido : Arbitra
+Arbitro "1" -- "*" ArbitroPorPartido : Participa
+
+@enduml
+
